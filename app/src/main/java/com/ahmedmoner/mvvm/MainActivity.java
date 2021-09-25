@@ -14,11 +14,13 @@ import com.ahmedmoner.mvvm.databinding.ActivityMainBinding;
 import com.ahmedmoner.mvvm.model.Note;
 import com.ahmedmoner.mvvm.viewmodels.NoteViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -81,23 +83,29 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.getallNotes()
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new SingleObserver<LiveData<List<Note>>>() {
+                        .subscribe(new Observer<List<Note>>() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
 
                             }
 
                             @Override
-                            public void onSuccess(@NonNull LiveData<List<Note>> listLiveData) {
-                                noteAdapter.setList(listLiveData);
+                            public void onNext(@NonNull List<Note> notes) {
+                                ArrayList<Note> list = new ArrayList<>();
+                                list.addAll(notes);//حول من لستت لاراي ليست
+                                noteAdapter.setList(list);
                             }
 
                             @Override
                             public void onError(@NonNull Throwable e) {
 
                             }
-                        });
 
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
 
             }
         });

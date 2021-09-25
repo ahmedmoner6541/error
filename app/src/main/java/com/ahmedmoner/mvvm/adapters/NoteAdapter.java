@@ -48,9 +48,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.VHolder> {
 
 
 
-    public void setList(@io.reactivex.rxjava3.annotations.NonNull LiveData<List<Note>> noteArrayList) {
-        this.noteArrayList = noteArrayList;
-
+    public void setList(ArrayList<Note> mList) {
+        this.noteArrayList = mList;
         notifyDataSetChanged();
     }
 
